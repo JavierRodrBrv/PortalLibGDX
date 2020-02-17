@@ -21,11 +21,10 @@ public class Astronauta {
 
     public Astronauta(World m){
         mundo=m;
-        sprite=new Sprite(new Texture("texturaPersonajes/personajeSolo.png"));
+        sprite=new Sprite(new Texture("texturaPersonajes/personajeDcha.png"));
         int anchuraSprite=1; //Anchura y altura se expresan ahora en metros
         int alturaSprite=1;//Anchura y altura se expresan ahora en metros
-        sprite.setBounds(5,26,
-                anchuraSprite,alturaSprite); //La posición inicial también debe estar en metros
+        sprite.setBounds(5,26,anchuraSprite,alturaSprite); //La posición inicial también debe estar en metros
 
         this.propiedadesCuerpo= new BodyDef(); //Establecemos las propiedades del cuerpo
         propiedadesCuerpo.type = BodyDef.BodyType.DynamicBody;
@@ -62,6 +61,14 @@ public class Astronauta {
 
     public float getY(){
         return this.cuerpo.getPosition().y;
+    }
+
+    public Sprite getSprite() {
+        return sprite;
+    }
+
+    public void setSprite(Sprite s){
+        this.sprite=s;
     }
 
     public Body getCuerpo(){

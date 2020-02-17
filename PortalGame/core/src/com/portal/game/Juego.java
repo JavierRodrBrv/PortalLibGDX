@@ -34,7 +34,6 @@ public class Juego extends ApplicationAdapter {
 	private Teclado teclado;
 	private TiledMap mapa;
 	private static final float pixelsPorCuadro=16f;
-
 	private OrthogonalTiledMapRenderer renderer;
 
 	
@@ -81,9 +80,6 @@ public class Juego extends ApplicationAdapter {
 		teclado=new Teclado(jugador);
 		Gdx.input.setInputProcessor(teclado);
 
-
-		teclado=new Teclado(jugador);
-		Gdx.input.setInputProcessor(teclado);
 	}
 
 	@Override
