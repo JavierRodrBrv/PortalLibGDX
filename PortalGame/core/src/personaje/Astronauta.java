@@ -24,7 +24,7 @@ public class Astronauta {
         sprite=new Sprite(new Texture("texturaPersonajes/personajeSolo.png"));
         int anchuraSprite=1; //Anchura y altura se expresan ahora en metros
         int alturaSprite=1;//Anchura y altura se expresan ahora en metros
-        sprite.setBounds(10,12,
+        sprite.setBounds(5,26,
                 anchuraSprite,alturaSprite); //La posición inicial también debe estar en metros
 
         this.propiedadesCuerpo= new BodyDef(); //Establecemos las propiedades del cuerpo
@@ -35,7 +35,7 @@ public class Astronauta {
 
         propiedadesFisicasCuerpo = new FixtureDef();
         propiedadesFisicasCuerpo.shape = new PolygonShape();
-        ((PolygonShape)propiedadesFisicasCuerpo.shape).setAsBox(anchuraSprite/2f, alturaSprite/2f);
+        ((PolygonShape)propiedadesFisicasCuerpo.shape).setAsBox(anchuraSprite/3.4f, alturaSprite/2.2f);
         propiedadesFisicasCuerpo.density = 1f;
         cuerpo.createFixture(propiedadesFisicasCuerpo);
 

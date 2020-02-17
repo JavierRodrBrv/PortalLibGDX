@@ -21,7 +21,7 @@ public class Teclado implements InputProcessor {
         Gdx.app.log("eventoDown","Input "+keycode);
         switch (keycode) {
             case Input.Keys.LEFT:
-                actor.getCuerpo().applyForceToCenter(-100,100,true);
+                actor.getCuerpo().applyForceToCenter(-100,200,true);
                 break;
             case Input.Keys.R:
                 actor.getCuerpo().setLinearVelocity(new Vector2(0,0));
@@ -29,7 +29,7 @@ public class Teclado implements InputProcessor {
                 actor.getCuerpo().setTransform(10,10,0);
                 break;
             case Input.Keys.RIGHT:
-                actor.getCuerpo().applyForceToCenter(100,100,true);
+                actor.getCuerpo().applyForceToCenter(100,200,true);
                 break;
             case Input.Keys.UP:
                 actor.getCuerpo().applyForceToCenter(0,100,true);
