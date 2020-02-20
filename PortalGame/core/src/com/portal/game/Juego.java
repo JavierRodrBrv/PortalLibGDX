@@ -47,18 +47,7 @@ public class Juego extends ApplicationAdapter {
 		camara.position.x=jugador.getX();
 		camara.position.y=jugador.getY();
 
-		/*
-		//Era un suelo alternativo, creado sin mapa, lo quitamos para probar mapa
-		BodyDef propiedadesSuelo= new BodyDef(); //Establecemos las propiedades del cuerpo
-		propiedadesSuelo.type = BodyDef.BodyType.StaticBody;
-		Body suelo = world.createBody(propiedadesSuelo);
-		FixtureDef propiedadesFisicasSuelo=new FixtureDef();
-		propiedadesFisicasSuelo.shape = new PolygonShape();
-		((PolygonShape)propiedadesFisicasSuelo.shape).setAsBox(100/2f, 1/2f);
-		propiedadesFisicasSuelo.density = 1f;
-		suelo.createFixture(propiedadesFisicasSuelo);
-		//Fin suelo alternativo, que no está cargado del tmx
-		*/
+
 
 		mapa=new TmxMapLoader().load("mapas/mapaPortal.tmx");
 		renderer = new OrthogonalTiledMapRenderer(mapa, 1/pixelsPorCuadro);
@@ -84,7 +73,7 @@ public class Juego extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
+		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		world.step(Gdx.graphics.getDeltaTime(), 6, 2);

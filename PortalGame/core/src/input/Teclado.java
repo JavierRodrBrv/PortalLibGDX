@@ -35,11 +35,14 @@ public class Teclado implements InputProcessor {
                 break;
             case Input.Keys.RIGHT:
                 actor.getCuerpo().setLinearVelocity(new Vector2(10,0));
-                //actor.setSprite(sprite=new Sprite(new Texture("texturaPersonajes/personajeDcha.png")));
+                actor.setSprite(sprite=new Sprite(new Texture("texturaPersonajes/personajeDcha.png")));
+                actor.getSprite().setSize(1,1);
                 break;
             case Input.Keys.UP:
-                actor.getCuerpo().applyForceToCenter(0,20,true);
+                actor.getCuerpo().applyForceToCenter(0,100,true);
                 break;
+            case Input.Keys.E:
+                actor.getCuerpo().setTransform(actor.getX(),actor.getY(),0);
     }
         return true;
     }
@@ -47,7 +50,8 @@ public class Teclado implements InputProcessor {
     @Override
     public boolean keyUp(int keycode) {
         actor.getCuerpo().setLinearVelocity(new Vector2(0,0));
-        return false;
+
+        return true;
     }
 
     @Override
@@ -77,6 +81,7 @@ public class Teclado implements InputProcessor {
 
     @Override
     public boolean scrolled(int amount) {
+
         return false;
     }
 

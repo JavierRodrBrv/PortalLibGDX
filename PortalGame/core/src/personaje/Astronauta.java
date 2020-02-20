@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -47,6 +48,18 @@ public class Astronauta {
 
 
     public void draw(Batch batch, float parentAlpha) {
+        //Si la posición es menor que el nivel del suelo, reseteo
+        if(cuerpo.getPosition().y<0-sprite.getHeight()*3){
+
+            //Estas tres líneas anulan todas las fuerzas, y ponen al pollo en la posición predeterminada.
+            cuerpo.setLinearVelocity(new Vector2(0,0));
+            cuerpo.setAngularVelocity(0);
+            this.getCuerpo().setTransform(5,26,0);
+            //Aqui se pondrá el incremento de las muertes
+            //contadorMuertes++;
+
+        }
+
         //Esta cuenta hace falta por lo de la media altura. Ese absurdo cálculo...
         sprite.setPosition(cuerpo.getPosition().x-sprite.getWidth()/2,cuerpo.getPosition().y-sprite.getHeight()/2);
         //Sprite quiere la rotación en grados, el cuerpo la da en radianes. Esta constante convierte de uno a otro.
