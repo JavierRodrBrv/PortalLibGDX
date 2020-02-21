@@ -12,15 +12,25 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
+import basedatos.BaseDatos;
+
 public class Astronauta {
     protected Sprite sprite;
     private World mundo;
     private BodyDef propiedadesCuerpo;
     private Body cuerpo;
     private FixtureDef propiedadesFisicasCuerpo;
+    private BaseDatos baseDeDatos;
+    private int puntuacion;
 
 
-    public Astronauta(World m){
+    public Astronauta(BaseDatos bd){
+        baseDeDatos=bd;
+    }
+
+    public Astronauta(BaseDatos bd,World m){
+        baseDeDatos=bd;
+        puntuacion=baseDeDatos.cargar();
         mundo=m;
         sprite=new Sprite(new Texture("texturaPersonajes/personajeDcha.png"));
         int anchuraSprite=1; //Anchura y altura se expresan ahora en metros
@@ -56,7 +66,8 @@ public class Astronauta {
             cuerpo.setAngularVelocity(0);
             this.getCuerpo().setTransform(5,26,0);
             //Aqui se pondrá el incremento de las muertes
-            //contadorMuertes++;
+            puntuacion++;
+            baseDeDatos.guardar(puntuacion);
 
         }
 

@@ -2,10 +2,14 @@ package com.portal.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -21,6 +25,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 
+import basedatos.BaseDatos;
 import input.Teclado;
 import personaje.Astronauta;
 
@@ -28,6 +33,7 @@ public class Juego extends ApplicationAdapter {
 
 	private World world;
 	private SpriteBatch batch;
+	private SpriteBatch batchTexto;
 	private Astronauta jugador;
 	private Box2DDebugRenderer debugRenderer;
 	private OrthographicCamera camara;
@@ -35,13 +41,21 @@ public class Juego extends ApplicationAdapter {
 	private TiledMap mapa;
 	private static final float pixelsPorCuadro=16f;
 	private OrthogonalTiledMapRenderer renderer;
+	private BaseDatos baseDeDatos;
+	private int puntuacion;
+	private BitmapFont textoPuntuacion;
 
+	public Juego(BaseDatos bd){
+		baseDeDatos=bd;
+	}
 	
 	@Override
 	public void create () {
+		batchTexto=new SpriteBatch();
+		puntuacion=baseDeDatos.cargar();
 		batch = new SpriteBatch();
 		world=new World(new Vector2(0,-9.8f),true);
-		jugador=new Astronauta(world);
+		jugador=new Astronauta(baseDeDatos,world);
 		camara=new OrthographicCamera(10,10);
 		this.debugRenderer=new Box2DDebugRenderer();
 		camara.position.x=jugador.getX();
@@ -85,6 +99,21 @@ public class Juego extends ApplicationAdapter {
 		batch.begin();
 		jugador.draw(batch,0);
 		batch.end();
+
+		batchTexto.begin();
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fuentes/BAUHS93.TTF"));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameter.size = 100;
+		parameter.borderColor=new Color(0.1f,0.1f,0.1f,1);
+		parameter.borderWidth=3f;
+		parameter.incremental=true;
+		textoPuntuacion = generator.generateFont(parameter);
+		textoPuntuacion.draw(batchTexto,puntuacion+" puntos",Gdx.graphics.getHeight()/30,Gdx.graphics.getHeight()-Gdx.graphics.getHeight()/30,Gdx.graphics.getWidth(),-1,false);
+		textoPuntuacion.dispose();
+		generator.dispose();
+		batchTexto.end();
+
+
 		camara.update();
 		debugRenderer.render(world, camara.combined);
 	}
