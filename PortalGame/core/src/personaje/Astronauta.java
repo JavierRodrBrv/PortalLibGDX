@@ -21,16 +21,15 @@ public class Astronauta {
     private Body cuerpo;
     private FixtureDef propiedadesFisicasCuerpo;
     private BaseDatos baseDeDatos;
-    private int puntuacion;
+    private int contadorMuertes;
 
 
-    public Astronauta(BaseDatos bd){
-        baseDeDatos=bd;
-    }
+
 
     public Astronauta(BaseDatos bd,World m){
         baseDeDatos=bd;
-        puntuacion=baseDeDatos.cargar();
+        contadorMuertes=0;
+        contadorMuertes=baseDeDatos.cargar();
         mundo=m;
         sprite=new Sprite(new Texture("texturaPersonajes/personajeDcha.png"));
         int anchuraSprite=1; //Anchura y altura se expresan ahora en metros
@@ -66,8 +65,9 @@ public class Astronauta {
             cuerpo.setAngularVelocity(0);
             this.getCuerpo().setTransform(5,26,0);
             //Aqui se pondrá el incremento de las muertes
-            puntuacion++;
-            baseDeDatos.guardar(puntuacion);
+            contadorMuertes++;
+            baseDeDatos.guardar(contadorMuertes);
+
 
         }
 
@@ -87,6 +87,7 @@ public class Astronauta {
         return this.cuerpo.getPosition().y;
     }
 
+
     public Sprite getSprite() {
         return sprite;
     }
@@ -97,6 +98,10 @@ public class Astronauta {
 
     public Body getCuerpo(){
         return cuerpo;
+    }
+
+    public int getContadorMuertes() {
+        return contadorMuertes;
     }
 
     public void seguir(OrthographicCamera camara){

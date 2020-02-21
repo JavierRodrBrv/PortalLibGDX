@@ -27,6 +27,7 @@ public class Teclado implements InputProcessor {
                 actor.getCuerpo().setLinearVelocity(new Vector2(-10,0));
                 actor.setSprite(sprite=new Sprite(new Texture("texturaPersonajes/personajeIzq.png")));
                 actor.getSprite().setSize(1,1);
+
                 break;
             case Input.Keys.R:
                 actor.getCuerpo().setLinearVelocity(new Vector2(0,0));
