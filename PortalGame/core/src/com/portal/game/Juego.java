@@ -54,6 +54,7 @@ public class Juego extends ApplicationAdapter {
     @Override
     public void create() {
         contadorMuertes=0;
+
         contadorMuertes=baseDeDatos.cargar();
         textoPuntuacion = new BitmapFont();
         batchTexto = new SpriteBatch();
@@ -103,7 +104,7 @@ public class Juego extends ApplicationAdapter {
         jugador.draw(batch, 0);
         batch.end();
 
-        batchTexto.begin();
+
         generator = new FreeTypeFontGenerator(Gdx.files.internal("fuentes/BAUHS93.TTF"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 60;
@@ -112,8 +113,8 @@ public class Juego extends ApplicationAdapter {
         parameter.incremental = true;
         textoPuntuacion = generator.generateFont(parameter);
         contadorMuertes=baseDeDatos.cargar();
-        textoPuntuacion.draw(batchTexto, contadorMuertes + " puntos", Gdx.graphics.getHeight()/10, Gdx.graphics.getHeight() - Gdx.graphics.getHeight()/10, Gdx.graphics.getWidth(), -1, false);
-
+        batchTexto.begin();
+        textoPuntuacion.draw(batchTexto, contadorMuertes + " contador muertes", Gdx.graphics.getHeight()/10, Gdx.graphics.getHeight() - Gdx.graphics.getHeight()/10, Gdx.graphics.getWidth(), -1, false);
 
         batchTexto.end();
 
