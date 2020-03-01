@@ -25,12 +25,9 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import basedatos.BaseDatos;
-import botones.BotonArriba;
+import botones.Botones;
 import input.Teclado;
 import personaje.Astronauta;
 
@@ -38,6 +35,7 @@ public class Juego extends Game {
 
     private World world;
     private SpriteBatch batch;
+    public static SpriteBatch batch2;
     private SpriteBatch batchTexto;
     private Astronauta jugador;
     private Box2DDebugRenderer debugRenderer;
@@ -48,7 +46,8 @@ public class Juego extends Game {
     private BaseDatos baseDeDatos;
     private BitmapFont textoPuntuacion;
     private FreeTypeFontGenerator generator;
-    private BotonArriba botonArriba;
+    private Botones botones;
+    private Sprite sprite;
 
     private int contadorMuertes;
 
@@ -62,6 +61,8 @@ public class Juego extends Game {
         contadorMuertes = baseDeDatos.cargar();
         textoPuntuacion = new BitmapFont();
         batchTexto = new SpriteBatch();
+        batch2=new SpriteBatch();
+        botones=new Botones();
         batch = new SpriteBatch();
         world = new World(new Vector2(0, -9.8f), true);
         jugador = new Astronauta(baseDeDatos, world);
@@ -79,17 +80,14 @@ public class Juego extends Game {
         Teclado teclado = new Teclado(jugador);
         Gdx.input.setInputProcessor(teclado);
 
-        //Botones
-        botonArriba = new BotonArriba(5, 26);
-        botonArriba.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
 
-                jugador.getCuerpo().applyForceToCenter(0, 100, true);
-            }
-        });
 
-        //Texto de colisiones
+
+
+
+
+
+        //Texto de contador muertes
         generator = new FreeTypeFontGenerator(Gdx.files.internal("fuentes/BAUHS93.TTF"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 60;
@@ -113,7 +111,6 @@ public class Juego extends Game {
 
         batch.begin();
         jugador.draw(batch, 0);
-        botonArriba.draw(batch, 0);
         batch.end();
 
         contadorMuertes = baseDeDatos.cargar();
@@ -123,8 +120,10 @@ public class Juego extends Game {
         batchTexto.end();
 
 
+        handleInput();
         camara.update();
         debugRenderer.render(world, camara.combined);
+        botones.draw();
     }
 
     @Override
@@ -135,6 +134,29 @@ public class Juego extends Game {
         this.batch.dispose();
         this.textoPuntuacion.dispose();
         this.generator.dispose();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
+        botones.resize(width,height);
+    }
+    public void handleInput(){
+        if(botones.isDerecha()){
+            jugador.getCuerpo().setLinearVelocity(new Vector2(10,jugador.getCuerpo().getLinearVelocity().y));
+            jugador.setSprite(sprite=new Sprite(new Texture("texturaPersonajes/personajeDcha.png")));
+            jugador.getSprite().setSize(1,1);
+        }else if(botones.isIzquierda()){
+            jugador.getCuerpo().setLinearVelocity(new Vector2(-10,jugador.getCuerpo().getLinearVelocity().y));
+            jugador.setSprite(sprite=new Sprite(new Texture("texturaPersonajes/personajeIzq.png")));
+            jugador.getSprite().setSize(1,1);
+        }else {
+            jugador.getCuerpo().setLinearVelocity(new Vector2(0,jugador.getCuerpo().getLinearVelocity().y));
+        }
+        if(botones.isArriba() && jugador.getCuerpo().getLinearVelocity().y == 0){
+            jugador.getCuerpo().applyLinearImpulse(new Vector2(0,5f),jugador.getCuerpo().getWorldCenter(),true);
+
+        }
     }
 
     private static PolygonShape getRectangle(RectangleMapObject rectangleObject) {
@@ -162,5 +184,7 @@ public class Juego extends Game {
             rectanguloSuelo.createFixture(propiedadesFisicasRectangulo);
         }
     }
+
+
 
 }

@@ -51,6 +51,7 @@ public class Astronauta extends Actor {
     }
 
 
+
     public void draw(Batch batch, float parentAlpha) {
         //Si la posición es menor que el nivel del suelo, reseteo
         if (cuerpo.getPosition().y < 0 - sprite.getHeight() * 3) {
@@ -72,6 +73,8 @@ public class Astronauta extends Actor {
         sprite.setRotation(MathUtils.radiansToDegrees * cuerpo.getAngle());
         sprite.draw(batch);
     }
+
+
 
     public float getX() {
         return this.cuerpo.getPosition().x;
