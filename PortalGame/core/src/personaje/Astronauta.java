@@ -20,6 +20,7 @@ public class Astronauta extends Actor {
     private Body cuerpo;
     private BaseDatos baseDeDatos;
     private int contadorMuertes;
+    private char direccion;
 
 
     public Astronauta(BaseDatos bd, World m) {
@@ -32,10 +33,11 @@ public class Astronauta extends Actor {
         int alturaSprite = 1;//Anchura y altura se expresan ahora en metros
         sprite.setBounds(5, 26, anchuraSprite, alturaSprite); //La posición inicial también debe estar en metros
 
+
         BodyDef propiedadesCuerpo = new BodyDef(); //Establecemos las propiedades del cuerpo
         propiedadesCuerpo.type = BodyDef.BodyType.DynamicBody;
         propiedadesCuerpo.position.set(sprite.getX(), sprite.getY());
-
+        propiedadesCuerpo.fixedRotation = true;
         cuerpo = mundo.createBody(propiedadesCuerpo);
 
         FixtureDef propiedadesFisicasCuerpo = new FixtureDef();
@@ -43,13 +45,11 @@ public class Astronauta extends Actor {
         ((PolygonShape) propiedadesFisicasCuerpo.shape).setAsBox(anchuraSprite / 3.4f, alturaSprite / 2.2f);
         propiedadesFisicasCuerpo.density = 1f;
         cuerpo.createFixture(propiedadesFisicasCuerpo);
-
         sprite.setOrigin(this.sprite.getWidth() / 2,
                 this.sprite.getHeight() / 2);
 
 
     }
-
 
 
     public void draw(Batch batch, float parentAlpha) {
@@ -73,7 +73,6 @@ public class Astronauta extends Actor {
         sprite.setRotation(MathUtils.radiansToDegrees * cuerpo.getAngle());
         sprite.draw(batch);
     }
-
 
 
     public float getX() {
@@ -102,5 +101,14 @@ public class Astronauta extends Actor {
     public void seguir(OrthographicCamera camara) {
         camara.position.x = this.cuerpo.getPosition().x;
         camara.position.y = this.cuerpo.getPosition().y;
+    }
+
+
+    public char getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(char direccion) {
+        this.direccion = direccion;
     }
 }

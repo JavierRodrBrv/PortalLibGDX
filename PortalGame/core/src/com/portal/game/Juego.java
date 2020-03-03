@@ -61,8 +61,8 @@ public class Juego extends Game {
         contadorMuertes = baseDeDatos.cargar();
         textoPuntuacion = new BitmapFont();
         batchTexto = new SpriteBatch();
-        batch2=new SpriteBatch();
-        botones=new Botones();
+        batch2 = new SpriteBatch();
+        botones = new Botones();
         batch = new SpriteBatch();
         world = new World(new Vector2(0, -9.8f), true);
         jugador = new Astronauta(baseDeDatos, world);
@@ -77,14 +77,9 @@ public class Juego extends Game {
         //Colisiones del mapa
         contruirColisiones();
 
+
         Teclado teclado = new Teclado(jugador);
         Gdx.input.setInputProcessor(teclado);
-
-
-
-
-
-
 
 
         //Texto de contador muertes
@@ -115,10 +110,15 @@ public class Juego extends Game {
 
         contadorMuertes = baseDeDatos.cargar();
         batchTexto.begin();
-        textoPuntuacion.draw(batchTexto, contadorMuertes + " contador muertes", Gdx.graphics.getHeight() / 10, Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 10, Gdx.graphics.getWidth(), -1, false);
-
+        textoPuntuacion.draw(batchTexto, contadorMuertes + " contador muertes", Gdx.graphics.getHeight() / 10,
+                Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 10, Gdx.graphics.getWidth(), -1, false);
         batchTexto.end();
 
+        if(jugador.getDireccion() == 'd'){
+            jugador.getCuerpo().setLinearVelocity(10,jugador.getCuerpo().getLinearVelocity().y);
+        }else if( jugador.getDireccion() == 'i'){
+            jugador.getCuerpo().setLinearVelocity(-10,jugador.getCuerpo().getLinearVelocity().y);
+        }
 
         handleInput();
         camara.update();
@@ -139,22 +139,23 @@ public class Juego extends Game {
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
-        botones.resize(width,height);
+        botones.resize(width, height);
     }
-    public void handleInput(){
-        if(botones.isDerecha()){
-            jugador.getCuerpo().setLinearVelocity(new Vector2(10,jugador.getCuerpo().getLinearVelocity().y));
-            jugador.setSprite(sprite=new Sprite(new Texture("texturaPersonajes/personajeDcha.png")));
-            jugador.getSprite().setSize(1,1);
-        }else if(botones.isIzquierda()){
-            jugador.getCuerpo().setLinearVelocity(new Vector2(-10,jugador.getCuerpo().getLinearVelocity().y));
-            jugador.setSprite(sprite=new Sprite(new Texture("texturaPersonajes/personajeIzq.png")));
-            jugador.getSprite().setSize(1,1);
-        }else {
-            jugador.getCuerpo().setLinearVelocity(new Vector2(0,jugador.getCuerpo().getLinearVelocity().y));
+
+    public void handleInput() {
+        if (botones.isDerecha()) {
+            jugador.getCuerpo().setLinearVelocity(new Vector2(10, jugador.getCuerpo().getLinearVelocity().y));
+            jugador.setSprite(sprite = new Sprite(new Texture("texturaPersonajes/personajeDcha.png")));
+            jugador.getSprite().setSize(1, 1);
+        } else if (botones.isIzquierda()) {
+            jugador.getCuerpo().setLinearVelocity(new Vector2(-10, jugador.getCuerpo().getLinearVelocity().y));
+            jugador.setSprite(sprite = new Sprite(new Texture("texturaPersonajes/personajeIzq.png")));
+            jugador.getSprite().setSize(1, 1);
+        } else {
+            jugador.getCuerpo().setLinearVelocity(new Vector2(0, jugador.getCuerpo().getLinearVelocity().y));
         }
-        if(botones.isArriba() && jugador.getCuerpo().getLinearVelocity().y == 0){
-            jugador.getCuerpo().applyLinearImpulse(new Vector2(0,5f),jugador.getCuerpo().getWorldCenter(),true);
+        if (botones.isArriba() && jugador.getCuerpo().getLinearVelocity().y == 0) {
+            jugador.getCuerpo().applyLinearImpulse(new Vector2(0, 5f), jugador.getCuerpo().getWorldCenter(), true);
 
         }
     }
@@ -184,7 +185,6 @@ public class Juego extends Game {
             rectanguloSuelo.createFixture(propiedadesFisicasRectangulo);
         }
     }
-
 
 
 }
