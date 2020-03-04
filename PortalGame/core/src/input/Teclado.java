@@ -7,15 +7,18 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
-import personaje.Astronauta;
+import actores.Astronauta;
+import actores.Portal;
 
 
 public class Teclado implements InputProcessor {
     private Astronauta actor;
+    private Portal portal;
     private Sprite sprite;
 
-    public Teclado(Astronauta j) {
+    public Teclado(Astronauta j, Portal p) {
         this.actor = j;
+        this.portal = p;
     }
 
 
@@ -68,12 +71,12 @@ public class Teclado implements InputProcessor {
             if (actor.getCuerpo().getLinearVelocity().y == 0) {
                 actor.getCuerpo().applyForceToCenter(0, 150, true);
             }
-        }else if(screenX < Gdx.graphics.getWidth() /2){
+        } else if (screenX < Gdx.graphics.getWidth() / 2) {
             actor.getCuerpo().setLinearVelocity(-25, actor.getCuerpo().getLinearVelocity().y);
             actor.setSprite(sprite = new Sprite(new Texture("texturaPersonajes/personajeIzq.png")));
             actor.getSprite().setSize(1, 1);
             actor.setDireccion('i');
-        }else if (screenX > Gdx.graphics.getWidth() / 2) {
+        } else if (screenX > Gdx.graphics.getWidth() / 2) {
             actor.getCuerpo().setLinearVelocity(25, actor.getCuerpo().getLinearVelocity().y);
             actor.setSprite(sprite = new Sprite(new Texture("texturaPersonajes/personajeDcha.png")));
             actor.getSprite().setSize(1, 1);
@@ -81,9 +84,14 @@ public class Teclado implements InputProcessor {
             //actor.getCuerpo().applyForceToCenter(Constantes.fuerzaLanzamientoX,actor.getCuerpo().getLinearVelocity().y,true);
         }
 
-        if(screenY > (Gdx.graphics.getHeight()-(Gdx.graphics.getHeight() / 5f))) {
-            System.out.println("Hola");
+        if (screenY > (Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 5f))) {
+            actor.getCuerpo().setLinearVelocity(0, actor.getCuerpo().getLinearVelocity().y);
+            System.out.println("Portal");
+            portal.getCuerpoPortal().setLinearVelocity(30,portal.getCuerpoPortal().getLinearVelocity().y);
+            portal.setDireccion('d');
             //actor.getCuerpo().applyForceToCenter(Constantes.fuerzaLanzamientoX*-1,actor.getCuerpo().getLinearVelocity().y,true);
+
+            actor.setDireccion('p');
         }
 
 
@@ -93,6 +101,16 @@ public class Teclado implements InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        if (screenY > Gdx.graphics.getHeight() / 3) {
+            if (screenX > Gdx.graphics.getWidth() / 2) {
+                actor.getCuerpo().setLinearVelocity(0, actor.getCuerpo().getLinearVelocity().y);
+            } else {
+                actor.getCuerpo().setLinearVelocity(0, actor.getCuerpo().getLinearVelocity().y);
+            }
+
+        }
+
+        actor.setDireccion('p');
         return false;
     }
 

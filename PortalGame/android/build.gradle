@@ -17,7 +17,7 @@ android {
         exclude 'META-INF/robovm/ios/robovm.xml'
     }
     defaultConfig {
-        applicationId "com.portal.game"
+        applicationId "com.Portal.game"
         minSdkVersion 14
         targetSdkVersion 29
         versionCode 1
@@ -86,5 +86,5 @@ task run(type: Exec) {
     }
 
     def adb = path + "/platform-tools/adb"
-    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.portal.game/com.portal.game.AndroidLauncher'
+    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.Portal.game/com.Portal.game.AndroidLauncher'
 }

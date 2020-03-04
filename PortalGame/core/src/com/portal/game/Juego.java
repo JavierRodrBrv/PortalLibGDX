@@ -1,12 +1,10 @@
 package com.portal.game;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -26,18 +24,18 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 
+import actores.Portal;
 import basedatos.BaseDatos;
-import botones.Botones;
 import input.Teclado;
-import personaje.Astronauta;
+import actores.Astronauta;
 
 public class Juego extends Game {
 
     private World world;
     private SpriteBatch batch;
-    public static SpriteBatch batch2;
     private SpriteBatch batchTexto;
     private Astronauta jugador;
+    private Portal portal;
     private Box2DDebugRenderer debugRenderer;
     private OrthographicCamera camara;
     private TiledMap mapa;
@@ -46,7 +44,6 @@ public class Juego extends Game {
     private BaseDatos baseDeDatos;
     private BitmapFont textoPuntuacion;
     private FreeTypeFontGenerator generator;
-    private Botones botones;
     private Sprite sprite;
 
     private int contadorMuertes;
@@ -60,12 +57,16 @@ public class Juego extends Game {
         contadorMuertes = 0;
         contadorMuertes = baseDeDatos.cargar();
         textoPuntuacion = new BitmapFont();
+
+        //Batchs
         batchTexto = new SpriteBatch();
-        batch2 = new SpriteBatch();
-        botones = new Botones();
         batch = new SpriteBatch();
-        world = new World(new Vector2(0, -9.8f), true);
+
+        //Actores
         jugador = new Astronauta(baseDeDatos, world);
+        portal =new Portal(jugador,world);
+        world = new World(new Vector2(0, -9.8f), true);
+
         camara = new OrthographicCamera(10, 10);
         this.debugRenderer = new Box2DDebugRenderer();
         camara.position.x = jugador.getX();
@@ -78,7 +79,8 @@ public class Juego extends Game {
         contruirColisiones();
 
 
-        Teclado teclado = new Teclado(jugador);
+        //Controles
+        Teclado teclado = new Teclado(jugador,portal);
         Gdx.input.setInputProcessor(teclado);
 
 
@@ -106,6 +108,7 @@ public class Juego extends Game {
 
         batch.begin();
         jugador.draw(batch, 0);
+        portal.draw(batch,0);
         batch.end();
 
         contadorMuertes = baseDeDatos.cargar();
@@ -116,14 +119,15 @@ public class Juego extends Game {
 
         if(jugador.getDireccion() == 'd'){
             jugador.getCuerpo().setLinearVelocity(10,jugador.getCuerpo().getLinearVelocity().y);
+            portal.getCuerpoPortal().setLinearVelocity(25,portal.getCuerpoPortal().getLinearVelocity().y);
         }else if( jugador.getDireccion() == 'i'){
             jugador.getCuerpo().setLinearVelocity(-10,jugador.getCuerpo().getLinearVelocity().y);
+        }else if(jugador.getDireccion()=='p'){
+            jugador.getCuerpo().setLinearVelocity(0,jugador.getCuerpo().getLinearVelocity().y);
         }
 
-        handleInput();
         camara.update();
         debugRenderer.render(world, camara.combined);
-        botones.draw();
     }
 
     @Override
@@ -136,29 +140,6 @@ public class Juego extends Game {
         this.generator.dispose();
     }
 
-    @Override
-    public void resize(int width, int height) {
-        super.resize(width, height);
-        botones.resize(width, height);
-    }
-
-    public void handleInput() {
-        if (botones.isDerecha()) {
-            jugador.getCuerpo().setLinearVelocity(new Vector2(10, jugador.getCuerpo().getLinearVelocity().y));
-            jugador.setSprite(sprite = new Sprite(new Texture("texturaPersonajes/personajeDcha.png")));
-            jugador.getSprite().setSize(1, 1);
-        } else if (botones.isIzquierda()) {
-            jugador.getCuerpo().setLinearVelocity(new Vector2(-10, jugador.getCuerpo().getLinearVelocity().y));
-            jugador.setSprite(sprite = new Sprite(new Texture("texturaPersonajes/personajeIzq.png")));
-            jugador.getSprite().setSize(1, 1);
-        } else {
-            jugador.getCuerpo().setLinearVelocity(new Vector2(0, jugador.getCuerpo().getLinearVelocity().y));
-        }
-        if (botones.isArriba() && jugador.getCuerpo().getLinearVelocity().y == 0) {
-            jugador.getCuerpo().applyLinearImpulse(new Vector2(0, 5f), jugador.getCuerpo().getWorldCenter(), true);
-
-        }
-    }
 
     private static PolygonShape getRectangle(RectangleMapObject rectangleObject) {
         Rectangle rectangle = rectangleObject.getRectangle();

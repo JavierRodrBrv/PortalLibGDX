@@ -1,4 +1,4 @@
-package personaje;
+package actores;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
