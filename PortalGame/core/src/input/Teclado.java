@@ -67,7 +67,6 @@ public class Teclado implements InputProcessor {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         System.out.println(screenY);
         if (screenY < Gdx.graphics.getHeight() / 3) {
-            //actor.getCuerpo().setLinearVelocity(0f,Constantes.fuerzaSalto);
             if (actor.getCuerpo().getLinearVelocity().y == 0) {
                 actor.getCuerpo().applyForceToCenter(0, 150, true);
             }
@@ -81,16 +80,12 @@ public class Teclado implements InputProcessor {
             actor.setSprite(sprite = new Sprite(new Texture("texturaPersonajes/personajeDcha.png")));
             actor.getSprite().setSize(1, 1);
             actor.setDireccion('d');
-            //actor.getCuerpo().applyForceToCenter(Constantes.fuerzaLanzamientoX,actor.getCuerpo().getLinearVelocity().y,true);
         }
 
         if (screenY > (Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 5f))) {
             actor.getCuerpo().setLinearVelocity(0, actor.getCuerpo().getLinearVelocity().y);
             System.out.println("Portal");
-            portal.getCuerpoPortal().setLinearVelocity(30,portal.getCuerpoPortal().getLinearVelocity().y);
-            portal.setDireccion('d');
-            //actor.getCuerpo().applyForceToCenter(Constantes.fuerzaLanzamientoX*-1,actor.getCuerpo().getLinearVelocity().y,true);
-
+            portal.getCuerpoPortal().setLinearVelocity(20,portal.getCuerpoPortal().getLinearVelocity().y);
             actor.setDireccion('p');
         }
 

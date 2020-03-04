@@ -22,7 +22,7 @@ public class Portal extends Actor {
 
 
         jugador=j;
-        sprite = new Sprite();
+        sprite = new Sprite(new Texture("texturaPersonajes/personaje.png"));
         sprite.setBounds(jugador.getX(), jugador.getY(), anchuraSprite, alturaSprite); //La posición inicial también debe estar en metros
 
         BodyDef propiedadesCuerpo = new BodyDef(); //Establecemos las propiedades del cuerpo

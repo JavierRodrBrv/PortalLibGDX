@@ -46,6 +46,7 @@ public class Juego extends Game {
     private FreeTypeFontGenerator generator;
     private Sprite sprite;
 
+
     private int contadorMuertes;
 
     public Juego(BaseDatos bd) {
@@ -62,10 +63,14 @@ public class Juego extends Game {
         batchTexto = new SpriteBatch();
         batch = new SpriteBatch();
 
+
+        world = new World(new Vector2(0, -9.8f), true);
+
+
         //Actores
         jugador = new Astronauta(baseDeDatos, world);
-        portal =new Portal(jugador,world);
-        world = new World(new Vector2(0, -9.8f), true);
+        portal = new Portal(jugador, world);
+
 
         camara = new OrthographicCamera(10, 10);
         this.debugRenderer = new Box2DDebugRenderer();
@@ -80,7 +85,7 @@ public class Juego extends Game {
 
 
         //Controles
-        Teclado teclado = new Teclado(jugador,portal);
+        Teclado teclado = new Teclado(jugador, portal);
         Gdx.input.setInputProcessor(teclado);
 
 
@@ -108,7 +113,7 @@ public class Juego extends Game {
 
         batch.begin();
         jugador.draw(batch, 0);
-        portal.draw(batch,0);
+        portal.draw(batch, 0);
         batch.end();
 
         contadorMuertes = baseDeDatos.cargar();
@@ -117,14 +122,20 @@ public class Juego extends Game {
                 Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 10, Gdx.graphics.getWidth(), -1, false);
         batchTexto.end();
 
+
+        /*
         if(jugador.getDireccion() == 'd'){
             jugador.getCuerpo().setLinearVelocity(10,jugador.getCuerpo().getLinearVelocity().y);
-            portal.getCuerpoPortal().setLinearVelocity(25,portal.getCuerpoPortal().getLinearVelocity().y);
+
         }else if( jugador.getDireccion() == 'i'){
             jugador.getCuerpo().setLinearVelocity(-10,jugador.getCuerpo().getLinearVelocity().y);
         }else if(jugador.getDireccion()=='p'){
             jugador.getCuerpo().setLinearVelocity(0,jugador.getCuerpo().getLinearVelocity().y);
+            contador++;
+            portal.getCuerpoPortal().setLinearVelocity(20,portal.getCuerpoPortal().getLinearVelocity().y);
+            System.out.println("Este es el contador: "+contador);
         }
+*/
 
         camara.update();
         debugRenderer.render(world, camara.combined);
