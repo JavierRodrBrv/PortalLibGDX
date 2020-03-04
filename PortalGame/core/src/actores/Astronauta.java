@@ -67,7 +67,7 @@ public class Astronauta extends Actor {
 
         }
 
-        //Esta cuenta hace falta por lo de la media altura. Ese absurdo cálculo...
+        //Esta cuenta hace falta por lo de la media altura.
         sprite.setPosition(cuerpo.getPosition().x - sprite.getWidth() / 2, cuerpo.getPosition().y - sprite.getHeight() / 2);
         //Sprite quiere la rotación en grados, el cuerpo la da en radianes. Esta constante convierte de uno a otro.
         sprite.setRotation(MathUtils.radiansToDegrees * cuerpo.getAngle());
