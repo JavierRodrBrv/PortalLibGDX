@@ -2,5 +2,7 @@
 <resources>
 
     <string name="app_name">PortalGame</string>
+    <string name="botonNuevaPartida">Nueva Partida</string>
+    <string name="botonCargarPartida">Cargar Partida</string>
 
 </resources>

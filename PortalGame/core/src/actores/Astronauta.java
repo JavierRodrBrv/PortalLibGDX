@@ -8,10 +8,15 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.portal.game.Juego;
 
 import basedatos.BaseDatos;
 
@@ -20,17 +25,22 @@ public class Astronauta extends Actor {
     private Body cuerpo;
     private BaseDatos baseDeDatos;
     private int contadorMuertes;
+    private int anchuraSprite = 1; //Anchura y altura se expresan ahora en metros
+    private int alturaSprite = 1;//Anchura y altura se expresan ahora en metros
     private char direccion;
+    private World mundo;
+    private Astronauta as;
+    private Juego juego;
 
-
-    public Astronauta(BaseDatos bd, World m) {
+    public Astronauta(BaseDatos bd, World m,Juego j) {
+        this.as = this;
+        this.juego=j;
         baseDeDatos = bd;
         contadorMuertes = 0;
         contadorMuertes = baseDeDatos.cargar();
-        World mundo = m;
+        mundo = m;
         sprite = new Sprite(new Texture("texturaPersonajes/personajeDcha.png"));
-        int anchuraSprite = 1; //Anchura y altura se expresan ahora en metros
-        int alturaSprite = 1;//Anchura y altura se expresan ahora en metros
+
         sprite.setBounds(5, 26, anchuraSprite, alturaSprite); //La posición inicial también debe estar en metros
 
 
@@ -63,9 +73,37 @@ public class Astronauta extends Actor {
             //Aqui se pondrá el incremento de las muertes
             contadorMuertes++;
             baseDeDatos.guardar(contadorMuertes);
-
-
         }
+
+        mundo.setContactListener(new ContactListener() {
+
+            @Override
+            public void beginContact(Contact contact) {
+                if (contact.getFixtureA().getBody() == as.getCuerpo() &&
+                        contact.getFixtureB().getBody() == juego.getPortalMiguel().getCuerpo()) {
+                    System.out.println("Estoy tocando el portal con mis manos");
+                    as.getCuerpo().setTransform(5, 26, 0);
+
+                }
+
+            }
+
+            @Override
+            public void endContact(Contact contact) {
+
+            }
+
+            @Override
+            public void preSolve(Contact contact, Manifold oldManifold) {
+
+            }
+
+            @Override
+            public void postSolve(Contact contact, ContactImpulse impulse) {
+
+            }
+        });
+
 
         //Esta cuenta hace falta por lo de la media altura.
         sprite.setPosition(cuerpo.getPosition().x - sprite.getWidth() / 2, cuerpo.getPosition().y - sprite.getHeight() / 2);
@@ -97,12 +135,26 @@ public class Astronauta extends Actor {
         return cuerpo;
     }
 
+    public int getAnchuraSprite() {
+        return anchuraSprite;
+    }
+
+    public void setAnchuraSprite(int anchuraSprite) {
+        this.anchuraSprite = anchuraSprite;
+    }
+
+    public int getAlturaSprite() {
+        return alturaSprite;
+    }
+
+    public void setAlturaSprite(int alturaSprite) {
+        this.alturaSprite = alturaSprite;
+    }
 
     public void seguir(OrthographicCamera camara) {
         camara.position.x = this.cuerpo.getPosition().x;
         camara.position.y = this.cuerpo.getPosition().y;
     }
-
 
     public char getDireccion() {
         return direccion;

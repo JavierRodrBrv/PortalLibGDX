@@ -2,6 +2,7 @@ package com.portal.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -19,12 +20,18 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 
-import actores.Portal;
+import actores.PortalPadre;
+import actores.PortalitoMiguel;
 import basedatos.BaseDatos;
 import input.Teclado;
 import actores.Astronauta;
@@ -35,7 +42,7 @@ public class Juego extends Game {
     private SpriteBatch batch;
     private SpriteBatch batchTexto;
     private Astronauta jugador;
-    private Portal portal;
+    private PortalitoMiguel portalMiguel;
     private Box2DDebugRenderer debugRenderer;
     private OrthographicCamera camara;
     private TiledMap mapa;
@@ -44,19 +51,23 @@ public class Juego extends Game {
     private BaseDatos baseDeDatos;
     private BitmapFont textoPuntuacion;
     private FreeTypeFontGenerator generator;
-    private Sprite sprite;
-
-
     private int contadorMuertes;
+    private Boolean cargar;
 
-    public Juego(BaseDatos bd) {
+    public Juego(BaseDatos bd,Boolean b) {
+        this.cargar=b;
         baseDeDatos = bd;
     }
 
     @Override
     public void create() {
+
         contadorMuertes = 0;
-        contadorMuertes = baseDeDatos.cargar();
+        if(cargar){//Para cargar la partida
+            contadorMuertes = baseDeDatos.cargar();
+        }else{
+            baseDeDatos.guardar(contadorMuertes);//Para borrar la partida.
+        }
         textoPuntuacion = new BitmapFont();
 
         //Batchs
@@ -68,8 +79,8 @@ public class Juego extends Game {
 
 
         //Actores
-        jugador = new Astronauta(baseDeDatos, world);
-        portal = new Portal(jugador, world);
+        jugador = new Astronauta(baseDeDatos, world,this);
+        portalMiguel=new PortalitoMiguel(world,10,26.5f);
 
 
         camara = new OrthographicCamera(10, 10);
@@ -85,9 +96,41 @@ public class Juego extends Game {
 
 
         //Controles
-        Teclado teclado = new Teclado(jugador, portal);
+        final Teclado teclado = new Teclado(jugador);
         Gdx.input.setInputProcessor(teclado);
 
+
+        /*
+        //Comparacion de cuerpos por si hay colision, y se realiza la teletransportación.
+        world.setContactListener(new ContactListener() {
+            @Override
+            public void beginContact(Contact contact) {
+                if(contact.getFixtureA().getBody()==jugador.getCuerpo()&&
+                        contact.getFixtureB().getBody()==portalMiguel.getCuerpo()){
+                    System.out.println("Estoy tocando el portal con mis manos");
+                    jugador.getCuerpo().setTransform(5,26,0);
+
+                }
+
+
+            }
+
+            @Override
+            public void endContact(Contact contact) {
+
+            }
+
+            @Override
+            public void preSolve(Contact contact, Manifold oldManifold) {
+
+            }
+
+            @Override
+            public void postSolve(Contact contact, ContactImpulse impulse) {
+
+            }
+        });
+        */
 
         //Texto de contador muertes
         generator = new FreeTypeFontGenerator(Gdx.files.internal("fuentes/BAUHS93.TTF"));
@@ -113,7 +156,7 @@ public class Juego extends Game {
 
         batch.begin();
         jugador.draw(batch, 0);
-        portal.draw(batch, 0);
+        portalMiguel.draw(batch,0);
         batch.end();
 
         contadorMuertes = baseDeDatos.cargar();
@@ -123,19 +166,16 @@ public class Juego extends Game {
         batchTexto.end();
 
 
-        /*
+
         if(jugador.getDireccion() == 'd'){
-            jugador.getCuerpo().setLinearVelocity(10,jugador.getCuerpo().getLinearVelocity().y);
+            jugador.getCuerpo().setLinearVelocity(5,jugador.getCuerpo().getLinearVelocity().y);
 
         }else if( jugador.getDireccion() == 'i'){
-            jugador.getCuerpo().setLinearVelocity(-10,jugador.getCuerpo().getLinearVelocity().y);
+            jugador.getCuerpo().setLinearVelocity(-5,jugador.getCuerpo().getLinearVelocity().y);
         }else if(jugador.getDireccion()=='p'){
             jugador.getCuerpo().setLinearVelocity(0,jugador.getCuerpo().getLinearVelocity().y);
-            contador++;
-            portal.getCuerpoPortal().setLinearVelocity(20,portal.getCuerpoPortal().getLinearVelocity().y);
-            System.out.println("Este es el contador: "+contador);
         }
-*/
+
 
         camara.update();
         debugRenderer.render(world, camara.combined);
@@ -178,5 +218,11 @@ public class Juego extends Game {
         }
     }
 
+    public PortalitoMiguel getPortalMiguel() {
+        return portalMiguel;
+    }
 
+    public void setPortalMiguel(PortalitoMiguel portalMiguel) {
+        this.portalMiguel = portalMiguel;
+    }
 }
