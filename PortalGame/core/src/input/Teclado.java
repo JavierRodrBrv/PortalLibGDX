@@ -66,18 +66,18 @@ public class Teclado implements InputProcessor {
         System.out.println(screenY);
         if (screenY < Gdx.graphics.getHeight() / 3) {
             if (actor.getCuerpo().getLinearVelocity().y == 0) {
-                actor.getCuerpo().applyForceToCenter(0, 150, true);
+                actor.getCuerpo().applyForceToCenter(0, actor.getSalto(), true);
             }
 
         } else if (screenX < Gdx.graphics.getWidth() / 2) {//Para desplazar el personaje a hacia la izquierda.
-            actor.getCuerpo().setLinearVelocity(-5, actor.getCuerpo().getLinearVelocity().y);
+            actor.getCuerpo().setLinearVelocity(-actor.getVelocidad(), actor.getCuerpo().getLinearVelocity().y);
             actor.setSprite(sprite = new Sprite(new Texture("texturaPersonajes/personajeIzq.png")));
-            actor.getSprite().setSize(1, 1);
+            actor.getSprite().setSize(actor.getAnchuraSprite(), actor.getAlturaSprite());
             actor.setDireccion('i');
         } else if (screenX > Gdx.graphics.getWidth() / 2) {//Para desplazar al personaje hacia la derecha.
-            actor.getCuerpo().setLinearVelocity(5, actor.getCuerpo().getLinearVelocity().y);
+            actor.getCuerpo().setLinearVelocity(actor.getVelocidad(), actor.getCuerpo().getLinearVelocity().y);
             actor.setSprite(sprite = new Sprite(new Texture("texturaPersonajes/personajeDcha.png")));
-            actor.getSprite().setSize(1, 1);
+            actor.getSprite().setSize(actor.getAnchuraSprite(), actor.getAlturaSprite());
             actor.setDireccion('d');
         }
 

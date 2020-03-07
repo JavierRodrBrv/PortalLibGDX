@@ -31,7 +31,11 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 
 import actores.PortalPadre;
+import actores.PortalitoAntonio;
+import actores.PortalitoDarash;
 import actores.PortalitoMiguel;
+import actores.PortalitoOlfy;
+import actores.PortalitoUan;
 import basedatos.BaseDatos;
 import input.Teclado;
 import actores.Astronauta;
@@ -42,7 +46,12 @@ public class Juego extends Game {
     private SpriteBatch batch;
     private SpriteBatch batchTexto;
     private Astronauta jugador;
+
+    private PortalitoUan portalUan;
     private PortalitoMiguel portalMiguel;
+    private PortalitoOlfy portalOlfy;
+    private PortalitoAntonio portalAntonio;
+    private PortalitoDarash portalDarash;
     private Box2DDebugRenderer debugRenderer;
     private OrthographicCamera camara;
     private TiledMap mapa;
@@ -80,7 +89,12 @@ public class Juego extends Game {
 
         //Actores
         jugador = new Astronauta(baseDeDatos, world,this);
-        portalMiguel=new PortalitoMiguel(world,10,26.5f);
+        portalUan=new PortalitoUan(world,10,26.5f);
+        portalMiguel=new PortalitoMiguel(world,3,4.5f);
+        portalOlfy=new PortalitoOlfy(world,31.5f,6.5f);
+        portalAntonio=new PortalitoAntonio(world,48.4f,8.5f);
+        portalDarash=new PortalitoDarash(world,29,28);
+
 
 
         camara = new OrthographicCamera(10, 10);
@@ -156,7 +170,12 @@ public class Juego extends Game {
 
         batch.begin();
         jugador.draw(batch, 0);
+
+        portalUan.draw(batch,0);
         portalMiguel.draw(batch,0);
+        portalOlfy.draw(batch,0);
+        portalAntonio.draw(batch,0);
+        portalDarash.draw(batch,0);
         batch.end();
 
         contadorMuertes = baseDeDatos.cargar();
@@ -168,10 +187,10 @@ public class Juego extends Game {
 
 
         if(jugador.getDireccion() == 'd'){
-            jugador.getCuerpo().setLinearVelocity(5,jugador.getCuerpo().getLinearVelocity().y);
+            jugador.getCuerpo().setLinearVelocity(jugador.getVelocidad(),jugador.getCuerpo().getLinearVelocity().y);
 
         }else if( jugador.getDireccion() == 'i'){
-            jugador.getCuerpo().setLinearVelocity(-5,jugador.getCuerpo().getLinearVelocity().y);
+            jugador.getCuerpo().setLinearVelocity(-jugador.getVelocidad(),jugador.getCuerpo().getLinearVelocity().y);
         }else if(jugador.getDireccion()=='p'){
             jugador.getCuerpo().setLinearVelocity(0,jugador.getCuerpo().getLinearVelocity().y);
         }
@@ -222,7 +241,19 @@ public class Juego extends Game {
         return portalMiguel;
     }
 
-    public void setPortalMiguel(PortalitoMiguel portalMiguel) {
-        this.portalMiguel = portalMiguel;
+    public PortalitoUan getPortalUan() {
+        return portalUan;
+    }
+
+    public PortalitoOlfy getPortalOlfy() {
+        return portalOlfy;
+    }
+
+    public PortalitoAntonio getPortalAntonio() {
+        return portalAntonio;
+    }
+
+    public PortalitoDarash getPortalDarash() {
+        return portalDarash;
     }
 }
