@@ -1,5 +1,7 @@
 package actores;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -33,12 +35,14 @@ public class Astronauta extends Actor {
     private int salto;
     private char direccion;
     private World mundo;
-    private Astronauta as;
     private Juego juego;
+    private String portal;
+    private Astronauta as;
 
     public Astronauta(BaseDatos bd, World m, Juego j) {
-        this.as = this;
         this.juego = j;
+        this.as=this;
+        portal="";
         baseDeDatos = bd;
         anchuraSprite = 1;
         alturaSprite = 1;
@@ -79,10 +83,11 @@ public class Astronauta extends Actor {
             //Estas tres líneas anulan todas las fuerzas, y ponen al pollo en la posición predeterminada.
             cuerpo.setLinearVelocity(new Vector2(0, 0));
             cuerpo.setAngularVelocity(0);
-            this.getCuerpo().setTransform(5, 26, 0);
+            teletransportar("inicio");
             //Aqui se pondrá el incremento de las muertes
             contadorMuertes++;
             baseDeDatos.guardar(contadorMuertes);
+            salto=100;
             velocidad = 5;
             anchuraSprite = 1;
             alturaSprite = 1;
@@ -98,49 +103,54 @@ public class Astronauta extends Actor {
                 if (contact.getFixtureA().getBody() == as.getCuerpo() &&
                         contact.getFixtureB().getBody() == juego.getPortalUan().getCuerpo()) {
                     System.out.println("Estoy tocando el portal Uan con mis manos");
-                    as.getCuerpo().setTransform(22, 22, 0);
+                    portal="juanca";
+                    musicaPortal();
 
                     //El portal de Miguel le suma anchura y altura al personaje
                 } else if(contact.getFixtureA().getBody() == as.getCuerpo() &&
                                 contact.getFixtureB().getBody() == juego.getPortalMiguel().getCuerpo()) {
                     System.out.println("Estoy tocando el portal Miguel con mis manos");
-                    as.getCuerpo().setTransform(25,7, 0);
+                    portal="miguel";
                     anchuraSprite = 2;
                     alturaSprite = 2;
-                    hitBoxAltura = 5;
-                    hitBoxAnchura = 5;
+                    hitBoxAltura = 1;
+                    hitBoxAnchura = 1;
+                    musicaPortal();
 
                     //El portal de Olfy le quita altura y anchura al personaje
                 } else if (contact.getFixtureA().getBody() == as.getCuerpo() &&
                         contact.getFixtureB().getBody() == juego.getPortalOlfy().getCuerpo()) {
-                    System.out.println("Estoy tocando el portal Uan con mis manos");
-                    as.getCuerpo().setTransform(45.5f,8.5f, 0);
+                    System.out.println("Estoy tocando el portal Olfy con mis manos");
+                    portal="olfy";
                     velocidad=50;
                     anchuraSprite = 0.5f;
                     alturaSprite = 0.5f;
                     //No entiendo por que no funciona.
                     hitBoxAltura = 5;
                     hitBoxAnchura = 5;
+                    musicaPortal();
 
                     //El portal de Antonio le devuelve la altura original, le quita velocidad y le añade mas salto.
                 }else if (contact.getFixtureA().getBody() == as.getCuerpo() &&
                         contact.getFixtureB().getBody() == juego.getPortalAntonio().getCuerpo()) {
-                    System.out.println("Estoy tocando el portal Uan con mis manos");
-                    as.getCuerpo().setTransform(29,9, 0);
+                    System.out.println("Estoy tocando el portal Antonio con mis manos");
+                    portal="antonio";
                     anchuraSprite = 1;
                     alturaSprite = 1;
                     salto=650;
                     velocidad=0.1f;
+                    musicaPortal();
 
 
 
                     //El portal de Darash restablece todos los valores del jugador.
                 }else if (contact.getFixtureA().getBody() == as.getCuerpo() &&
                         contact.getFixtureB().getBody() == juego.getPortalDarash().getCuerpo()) {
-                    System.out.println("Estoy tocando el portal Uan con mis manos");
-                    as.getCuerpo().setTransform(45.5f,28, 0);
+                    System.out.println("Estoy tocando el portal Darash con mis manos");
+                    portal="darash";
                     velocidad=5;
                     salto=150;
+                    musicaPortal();
 
 
 
@@ -164,6 +174,7 @@ public class Astronauta extends Actor {
             }
         });
 
+        teletransportar(portal);
 
         //Esta cuenta hace falta por lo de la media altura.
         sprite.setPosition(cuerpo.getPosition().x - sprite.getWidth() / 2, cuerpo.getPosition().y - sprite.getHeight() / 2);
@@ -224,4 +235,42 @@ public class Astronauta extends Actor {
     public int getSalto() {
         return salto;
     }
+
+    public void teletransportar(String portal){
+        switch (portal){
+
+            case "inicio":
+                this.getCuerpo().setTransform(5,26,0 );
+                break;
+            case "juanca":
+                this.getCuerpo().setTransform(22,20,0 );
+                break;
+            case "miguel":
+                this.getCuerpo().setTransform(25,7,0 );
+                break;
+            case "olfy":
+                this.getCuerpo().setTransform(48.4f,8.5f,0 );
+                break;
+            case "antonio":
+                this.getCuerpo().setTransform(29,11,0 );
+                break;
+            case "darash":
+                this.getCuerpo().setTransform(45.5f,28,0 );
+                break;
+        }
+
+        this.portal="";
+
+    }
+
+
+    public void musicaPortal(){
+
+        Music music = Gdx.audio.newMusic(Gdx.files.internal("musica/musicaportales/musicaPortal.mp3"));
+        music.setLooping(false);
+        music.setVolume(8.5f);
+        music.play();
+
+    }
+
 }

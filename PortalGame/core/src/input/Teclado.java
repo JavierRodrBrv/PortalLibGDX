@@ -64,7 +64,7 @@ public class Teclado implements InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         System.out.println(screenY);
-        if (screenY < Gdx.graphics.getHeight() / 3) {
+        if (screenY < Gdx.graphics.getHeight() / 2.5) {
             if (actor.getCuerpo().getLinearVelocity().y == 0) {
                 actor.getCuerpo().applyForceToCenter(0, actor.getSalto(), true);
             }
@@ -81,9 +81,6 @@ public class Teclado implements InputProcessor {
             actor.setDireccion('d');
         }
 
-        if (screenY > (Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 5f))) {//Mantiene al personaje quieto.
-            actor.getCuerpo().setLinearVelocity(0, actor.getCuerpo().getLinearVelocity().y);
-        }
 
 
         return false;

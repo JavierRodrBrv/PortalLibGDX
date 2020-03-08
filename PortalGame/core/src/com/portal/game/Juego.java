@@ -3,6 +3,7 @@ package com.portal.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -93,7 +94,7 @@ public class Juego extends Game {
         portalUan=new PortalitoUan(world,10,26.5f);
         portalMiguel=new PortalitoMiguel(world,3,4.5f);
         portalOlfy=new PortalitoOlfy(world,31.5f,6.5f);
-        portalAntonio=new PortalitoAntonio(world,48.4f,8.5f);
+        portalAntonio=new PortalitoAntonio(world,45.5f,8.5f);
         portalDarash=new PortalitoDarash(world,29,28);
 
 
@@ -115,37 +116,7 @@ public class Juego extends Game {
         Gdx.input.setInputProcessor(teclado);
 
 
-        /*
-        //Comparacion de cuerpos por si hay colision, y se realiza la teletransportación.
-        world.setContactListener(new ContactListener() {
-            @Override
-            public void beginContact(Contact contact) {
-                if(contact.getFixtureA().getBody()==jugador.getCuerpo()&&
-                        contact.getFixtureB().getBody()==portalMiguel.getCuerpo()){
-                    System.out.println("Estoy tocando el portal con mis manos");
-                    jugador.getCuerpo().setTransform(5,26,0);
 
-                }
-
-
-            }
-
-            @Override
-            public void endContact(Contact contact) {
-
-            }
-
-            @Override
-            public void preSolve(Contact contact, Manifold oldManifold) {
-
-            }
-
-            @Override
-            public void postSolve(Contact contact, ContactImpulse impulse) {
-
-            }
-        });
-        */
 
         //Texto de contador muertes
         generator = new FreeTypeFontGenerator(Gdx.files.internal("fuentes/BAUHS93.TTF"));
@@ -155,6 +126,10 @@ public class Juego extends Game {
         parameter.borderWidth = 3f;
         parameter.incremental = true;
         textoPuntuacion = generator.generateFont(parameter);
+
+
+        musicaJuego();
+
 
     }
 
@@ -238,6 +213,17 @@ public class Juego extends Game {
         }
     }
 
+    public void musicaJuego(){
+        Music music = Gdx.audio.newMusic(Gdx.files.internal("musica/musicafondo/musicaFondo.mp3"));
+        music.setLooping(true);
+        music.setVolume(1.5f);
+        music.play();
+
+
+    }
+
+
+    //Getters
     public PortalitoMiguel getPortalMiguel() {
         return portalMiguel;
     }

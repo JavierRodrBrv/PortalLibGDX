@@ -22,4 +22,5 @@ public class AndroidLauncher extends AndroidApplication {
 	public void onBackPressed() {
 		SalidaAplicacion.salidaAplicacion(this);
 	}
+
 }

@@ -8,13 +8,16 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+
 import funciones.SalidaAplicacion;
 import servicios.MiServicio;
 
 public class MainActivity extends AppCompatActivity {
 
-    ConstraintLayout miLayout;
-    AnimationDrawable animationDrawable;
+    private ConstraintLayout miLayout;
+    private AnimationDrawable animationDrawable;
 
 
     @Override
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         animationDrawable.setEnterFadeDuration(4500);
         animationDrawable.setExitFadeDuration(4500);
         animationDrawable.start();
+
 
 
 
@@ -55,4 +59,7 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         SalidaAplicacion.salidaAplicacion(this);
     }
+
+
+
 }

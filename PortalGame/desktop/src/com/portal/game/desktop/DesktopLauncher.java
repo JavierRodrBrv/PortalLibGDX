@@ -9,6 +9,6 @@ import basedatos.BaseDeDatosEscritorio;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		new LwjglApplication(new Juego(new BaseDeDatosEscritorio()), config);
+		new LwjglApplication(new Juego(new BaseDeDatosEscritorio(),true), config);
 	}
 }

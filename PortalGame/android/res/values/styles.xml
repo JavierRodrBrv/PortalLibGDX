@@ -12,7 +12,9 @@
 
     <style name="EstiloTexto" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@color/ic_background_color</item>
-        <item name="android:fontFamily"></item>
+        <item name="android:fontFamily">@font/fuente</item>
+        <item name="android:textSize">50sp</item>
+
     </style>
 
 </resources>
