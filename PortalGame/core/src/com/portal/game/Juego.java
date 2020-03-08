@@ -52,6 +52,7 @@ public class Juego extends Game {
     private PortalitoOlfy portalOlfy;
     private PortalitoAntonio portalAntonio;
     private PortalitoDarash portalDarash;
+
     private Box2DDebugRenderer debugRenderer;
     private OrthographicCamera camara;
     private TiledMap mapa;

@@ -15,6 +15,7 @@ public class AndroidLauncher extends AndroidApplication {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		initialize(new Juego(new BaseDeDatosAndroid(this),getIntent().getExtras().getBoolean("cargar")), config);
+
 	}
 
 	@Override

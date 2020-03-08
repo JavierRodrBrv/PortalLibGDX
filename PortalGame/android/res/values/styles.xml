@@ -9,4 +9,10 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
+
+    <style name="EstiloTexto" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/ic_background_color</item>
+        <item name="android:fontFamily"></item>
+    </style>
+
 </resources>

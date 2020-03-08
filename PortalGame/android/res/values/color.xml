@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="ic_background_color">#FFFFFFFF</color>
+
+
+    <color name="moradoOscuro">#0F0825</color>
+    <color name="morado">#403075</color>
+    <color name="azulNormal">#2F4172</color>
+    <color name="violeta">#542B72</color>
+    <color name="turquesa">#237E8B</color>
+    <color name="azulOscuro">#2537C6</color>
+
+
+    
 </resources>

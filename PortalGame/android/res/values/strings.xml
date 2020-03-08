@@ -4,5 +4,11 @@
     <string name="app_name">PortalGame</string>
     <string name="botonNuevaPartida">Nueva Partida</string>
     <string name="botonCargarPartida">Cargar Partida</string>
+    <string name="etiquetaServicio">Servicio not_sticky</string>
+    <string name="tituloAlerta">Advertencia</string>
+    <string name="mensajeAlerta">¿Estas seguro de que quieres salir?</string>
+    <string name="respuestaPositivaAlerta">SI</string>
+    <string name="respuestaNegativaAlerta">NO</string>
+    <string name="agradecimientoAlerta">Gracias amigo, ¡dejate los ojos jugando!</string>
 
 </resources>

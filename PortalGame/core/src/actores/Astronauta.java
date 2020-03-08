@@ -45,7 +45,7 @@ public class Astronauta extends Actor {
         hitBoxAltura = 2.2f;
         hitBoxAnchura = 3.4f;
         velocidad = 5;
-        salto=150;
+        salto=100;
         contadorMuertes = 0;
         contadorMuertes = baseDeDatos.cargar();
         mundo = m;
@@ -107,13 +107,15 @@ public class Astronauta extends Actor {
                     as.getCuerpo().setTransform(25,7, 0);
                     anchuraSprite = 2;
                     alturaSprite = 2;
+                    hitBoxAltura = 5;
+                    hitBoxAnchura = 5;
 
                     //El portal de Olfy le quita altura y anchura al personaje
                 } else if (contact.getFixtureA().getBody() == as.getCuerpo() &&
                         contact.getFixtureB().getBody() == juego.getPortalOlfy().getCuerpo()) {
                     System.out.println("Estoy tocando el portal Uan con mis manos");
                     as.getCuerpo().setTransform(45.5f,8.5f, 0);
-                    //velocidad=50;
+                    velocidad=50;
                     anchuraSprite = 0.5f;
                     alturaSprite = 0.5f;
                     //No entiendo por que no funciona.
