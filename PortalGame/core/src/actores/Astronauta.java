@@ -24,13 +24,18 @@ import java.awt.Dialog;
 
 import basedatos.BaseDatos;
 
+/**
+ * Función que modela el actor de Astronauta.
+ * @author Javier Rodríguez Bravo.
+ */
 public class Astronauta extends Actor {
     private Sprite sprite;
+    private Astronauta as;
     private Body cuerpo;
     private BaseDatos baseDeDatos;
     private int contadorMuertes;
-    private float anchuraSprite; //Anchura y altura se expresan ahora en metros
-    private float alturaSprite;//Anchura y altura se expresan ahora en metros
+    private float anchuraSprite;
+    private float alturaSprite;
     private float hitBoxAnchura;
     private float hitBoxAltura;
     private float velocidad;
@@ -39,9 +44,15 @@ public class Astronauta extends Actor {
     private World mundo;
     private Juego juego;
     private String portal;
-    private Astronauta as;
 
+    /**
+     * Constructor de Astronauta.
+     * @param bd recibe por parametros la base de datos.
+     * @param m recibe por parametros el mundo.
+     * @param j recibe por parametros el juego.
+     */
     public Astronauta(BaseDatos bd, World m, Juego j) {
+
         this.juego = j;
         this.as=this;
         portal="";
@@ -51,16 +62,14 @@ public class Astronauta extends Actor {
         contadorMuertes = baseDeDatos.cargar();
         mundo = m;
         sprite = new Sprite(new Texture("texturaPersonajes/personajeDcha.png"));
-
         sprite.setBounds(3,26.5f, anchuraSprite, alturaSprite); //La posición inicial también debe estar en metros
 
-
-        BodyDef propiedadesCuerpo = new BodyDef(); //Establecemos las propiedades del cuerpo
+        //Establecemos las propiedades del cuerpo.
+        BodyDef propiedadesCuerpo = new BodyDef();
         propiedadesCuerpo.type = BodyDef.BodyType.DynamicBody;
         propiedadesCuerpo.position.set(sprite.getX(), sprite.getY());
         propiedadesCuerpo.fixedRotation = true;
         cuerpo = mundo.createBody(propiedadesCuerpo);
-
         FixtureDef propiedadesFisicasCuerpo = new FixtureDef();
         propiedadesFisicasCuerpo.shape = new PolygonShape();
         ((PolygonShape) propiedadesFisicasCuerpo.shape).setAsBox(anchuraSprite / hitBoxAnchura, alturaSprite / hitBoxAltura);
@@ -70,7 +79,11 @@ public class Astronauta extends Actor {
                 this.sprite.getHeight() / 2);
     }
 
-
+    /**
+     * Función draw que dibuja el astronauta.
+     * @param batch
+     * @param parentAlpha
+     */
     public void draw(Batch batch, float parentAlpha) {
         //Si la posición es menor que el nivel del suelo, reseteo
         if (cuerpo.getPosition().y < 0 - sprite.getHeight() * 3) {
@@ -86,7 +99,10 @@ public class Astronauta extends Actor {
         }
 
         mundo.setContactListener(new ContactListener() {
-
+            /**
+             * Función para detectar colisiones con otros actores.
+             * @param contact
+             */
             @Override
             public void beginContact(Contact contact) {
                 //El portal de Juanka no modifica ningun valor sobre el jugador
@@ -137,10 +153,10 @@ public class Astronauta extends Actor {
                     velocidad=5;
                     salto=150;
                     musicaPortal();
+                    //Este portal teletransporta al inicio.
                 }else if (contact.getFixtureA().getBody() == as.getCuerpo() &&
                         contact.getFixtureB().getBody() == juego.getPortalFinal().getCuerpo()) {
                     System.out.println("He llegado al final");
-
                     portal="inicio";
                     velocidad=5;
                     salto=150;
@@ -166,24 +182,27 @@ public class Astronauta extends Actor {
 
         teletransportar(portal);
 
-        //Esta cuenta hace falta por lo de la media altura.
         sprite.setPosition(cuerpo.getPosition().x - sprite.getWidth() / 2, cuerpo.getPosition().y - sprite.getHeight() / 2);
-        //Sprite quiere la rotación en grados, el cuerpo la da en radianes. Esta constante convierte de uno a otro.
         sprite.setRotation(MathUtils.radiansToDegrees * cuerpo.getAngle());
         sprite.draw(batch);
     }
 
-
+    /**
+     * Este getter recoge la posicion X del jugador.
+     * @return devuelve la posicion
+     */
     public float getX() {
         return this.cuerpo.getPosition().x;
     }
-
-
+    /**
+     * Este getter recoge la posicion Y del jugador.
+     * @return devuelve la posicion
+     */
     public float getY() {
         return this.cuerpo.getPosition().y;
     }
 
-
+    //GETTERS AND SETTERS.
     public Sprite getSprite() {
         return sprite;
     }
@@ -194,12 +213,6 @@ public class Astronauta extends Actor {
 
     public Body getCuerpo() {
         return cuerpo;
-    }
-
-
-    public void seguir(OrthographicCamera camara) {
-        camara.position.x = this.cuerpo.getPosition().x;
-        camara.position.y = this.cuerpo.getPosition().y;
     }
 
     public char getDireccion() {
@@ -226,6 +239,10 @@ public class Astronauta extends Actor {
         return salto;
     }
 
+    /**
+     * Función que hace teletransportal al jugador a unas coordenadas especificas.
+     * @param portal recoge una variable tipo String.
+     */
     public void teletransportar(String portal){
         switch (portal){
 
@@ -250,6 +267,10 @@ public class Astronauta extends Actor {
         }
         this.portal="";
     }
+
+    /**
+     * Función que activa el sonido cuando el astronauta entra por uno de los portales.
+     */
     public void musicaPortal(){
         Music music = Gdx.audio.newMusic(Gdx.files.internal("musica/musicaportales/musicaPortal.mp3"));
         music.setLooping(false);
@@ -265,5 +286,11 @@ public class Astronauta extends Actor {
         velocidad = 5;
         salto=100;
     }
+
+    public void seguir(OrthographicCamera camara) {
+        camara.position.x = this.cuerpo.getPosition().x;
+        camara.position.y = this.cuerpo.getPosition().y;
+    }
+
 
 }
