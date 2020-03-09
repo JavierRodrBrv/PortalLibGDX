@@ -5,13 +5,25 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+/**
+ * Clase que modela la base de datos del juego. Implementa la interfaz de BaseDatos
+ * @author Javier Rodríguez Bravo
+ */
 public class BaseDeDatosAndroid implements BaseDatos {
     private BDOpenHelper oh;
 
+    /**
+     * Constructor que contiene:
+     * @param context recogemos de parametros el contexto.
+     */
     public BaseDeDatosAndroid(Context context) {
         oh = new BDOpenHelper(context, 1);
     }
 
+    /**
+     * Funcíon cargar de la interfaz BaseDatos, carga los datos de la base de datos.
+     * @return devuelve la columna que contenga en base de datos, en contrario, sino hay columna devuelve un 0.
+     */
     @Override
     public int cargar() {
         SQLiteDatabase db = oh.getWritableDatabase();
@@ -38,6 +50,10 @@ public class BaseDeDatosAndroid implements BaseDatos {
 
     }
 
+    /**
+     * Función guardar que guarda en base de datos los valores del juego.
+     * @param nuevaMuerte es una variable entero que contiene una nueva muerte del astronauta y la guarda en base de datos.
+     */
     @Override
     public void guardar(int nuevaMuerte) {
 

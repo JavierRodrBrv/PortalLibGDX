@@ -11,6 +11,10 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
+/**
+ * Super clase que modela los portales que extienden de Actor.
+ * @author Javier Rodríguez Bravo.
+ */
 public class PortalPadre extends Actor {
 
     protected Sprite sprite;
@@ -18,23 +22,27 @@ public class PortalPadre extends Actor {
     private BodyDef propiedadesCuerpo;
     private Body cuerpo;
     private FixtureDef propiedadesFisicasCuerpo;
-    protected int anchuraSprite=1; //Anchura y altura se expresan ahora en metros
-    protected int alturaSprite=1;//Anchura y altura se expresan ahora en metros
+    protected int anchuraSprite=1;
+    protected int alturaSprite=1;
 
+    /**
+     * Constructor de PortalPadre.
+     * @param m recibe variable de tipo mundo.
+     * @param x recible variable de tipo float.
+     * @param y recibe variable de tipo float.
+     */
     public PortalPadre(World m,float x,float y){
 
         mundo=m;
         sprite=new Sprite(new Texture("texturaPersonajes/portal.png"));
         sprite.setBounds(x,y,anchuraSprite,alturaSprite);
 
-
-
-        propiedadesCuerpo= new BodyDef(); //Establecemos las propiedades del cuerpo
+        //Establecemos las propiedades de los portales.
+        propiedadesCuerpo= new BodyDef();
         propiedadesCuerpo.type = BodyDef.BodyType.StaticBody;
         propiedadesCuerpo.position.set(sprite.getX(), sprite.getY());
         propiedadesCuerpo.fixedRotation = true;
         cuerpo = mundo.createBody(propiedadesCuerpo);
-
         propiedadesFisicasCuerpo = new FixtureDef();
         propiedadesFisicasCuerpo.shape = new PolygonShape();
         propiedadesFisicasCuerpo.isSensor=true;
@@ -47,7 +55,11 @@ public class PortalPadre extends Actor {
 
     }
 
-
+    /**
+     * Función draw para que se dibujen los portales.
+     * @param batch
+     * @param parentAlpha
+     */
     public void draw(Batch batch, float parentAlpha) {
         //Esta cuenta hace falta por lo de la media altura. Ese absurdo cálculo...
         sprite.setPosition(cuerpo.getPosition().x-sprite.getWidth()/2,cuerpo.getPosition().y-sprite.getHeight()/2);
@@ -56,6 +68,10 @@ public class PortalPadre extends Actor {
         sprite.draw(batch);
     }
 
+    /**
+     * Getter para recoger el cuerpo de los portales.
+     * @return devuelve el cuerpo.ñ
+     */
     public Body getCuerpo() {
         return cuerpo;
     }

@@ -278,6 +278,9 @@ public class Astronauta extends Actor {
         music.play();
     }
 
+    /**
+     * Función que restablece los valores de inicio del jugador.
+     */
     public void valoresPredeterminados(){
         anchuraSprite = 1;
         alturaSprite = 1;
@@ -287,6 +290,10 @@ public class Astronauta extends Actor {
         salto=100;
     }
 
+    /**
+     * Esta función sirve para que la camara siga al actor, en este caso el astronauta.
+     * @param camara recogemos la camara que enviamos desde la clase Juego por parametros.
+     */
     public void seguir(OrthographicCamera camara) {
         camara.position.x = this.cuerpo.getPosition().x;
         camara.position.y = this.cuerpo.getPosition().y;
