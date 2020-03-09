@@ -20,6 +20,8 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.portal.game.Juego;
 
+import java.awt.Dialog;
+
 import basedatos.BaseDatos;
 
 public class Astronauta extends Actor {
@@ -43,13 +45,8 @@ public class Astronauta extends Actor {
         this.juego = j;
         this.as=this;
         portal="";
+        valoresPredeterminados();
         baseDeDatos = bd;
-        anchuraSprite = 1;
-        alturaSprite = 1;
-        hitBoxAltura = 2.2f;
-        hitBoxAnchura = 3.4f;
-        velocidad = 5;
-        salto=100;
         contadorMuertes = 0;
         contadorMuertes = baseDeDatos.cargar();
         mundo = m;
@@ -71,8 +68,6 @@ public class Astronauta extends Actor {
         cuerpo.createFixture(propiedadesFisicasCuerpo);
         sprite.setOrigin(this.sprite.getWidth() / 2,
                 this.sprite.getHeight() / 2);
-
-
     }
 
 
@@ -87,12 +82,7 @@ public class Astronauta extends Actor {
             //Aqui se pondrá el incremento de las muertes
             contadorMuertes++;
             baseDeDatos.guardar(contadorMuertes);
-            salto=100;
-            velocidad = 5;
-            anchuraSprite = 1;
-            alturaSprite = 1;
-            hitBoxAltura = 2.2f;
-            hitBoxAnchura = 3.4f;
+            valoresPredeterminados();
         }
 
         mundo.setContactListener(new ContactListener() {
@@ -125,7 +115,6 @@ public class Astronauta extends Actor {
                     velocidad=50;
                     anchuraSprite = 0.5f;
                     alturaSprite = 0.5f;
-                    //No entiendo por que no funciona.
                     hitBoxAltura = 5;
                     hitBoxAnchura = 5;
                     musicaPortal();
@@ -140,9 +129,6 @@ public class Astronauta extends Actor {
                     salto=650;
                     velocidad=0.1f;
                     musicaPortal();
-
-
-
                     //El portal de Darash restablece todos los valores del jugador.
                 }else if (contact.getFixtureA().getBody() == as.getCuerpo() &&
                         contact.getFixtureB().getBody() == juego.getPortalDarash().getCuerpo()) {
@@ -151,11 +137,15 @@ public class Astronauta extends Actor {
                     velocidad=5;
                     salto=150;
                     musicaPortal();
+                }else if (contact.getFixtureA().getBody() == as.getCuerpo() &&
+                        contact.getFixtureB().getBody() == juego.getPortalFinal().getCuerpo()) {
+                    System.out.println("He llegado al final");
 
-
-
+                    portal="inicio";
+                    velocidad=5;
+                    salto=150;
+                    musicaPortal();
                 }
-
             }
 
             @Override
@@ -258,19 +248,22 @@ public class Astronauta extends Actor {
                 this.getCuerpo().setTransform(45.5f,28,0 );
                 break;
         }
-
         this.portal="";
-
     }
-
-
     public void musicaPortal(){
-
         Music music = Gdx.audio.newMusic(Gdx.files.internal("musica/musicaportales/musicaPortal.mp3"));
         music.setLooping(false);
         music.setVolume(8.5f);
         music.play();
+    }
 
+    public void valoresPredeterminados(){
+        anchuraSprite = 1;
+        alturaSprite = 1;
+        hitBoxAltura = 2.2f;
+        hitBoxAnchura = 3.4f;
+        velocidad = 5;
+        salto=100;
     }
 
 }

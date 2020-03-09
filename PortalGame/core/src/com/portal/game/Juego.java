@@ -31,6 +31,7 @@ import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 
+import actores.PortalFinal;
 import actores.PortalPadre;
 import actores.PortalitoAntonio;
 import actores.PortalitoDarash;
@@ -53,6 +54,7 @@ public class Juego extends Game {
     private PortalitoOlfy portalOlfy;
     private PortalitoAntonio portalAntonio;
     private PortalitoDarash portalDarash;
+    private PortalFinal portalFinal;
 
     private Box2DDebugRenderer debugRenderer;
     private OrthographicCamera camara;
@@ -96,6 +98,7 @@ public class Juego extends Game {
         portalOlfy=new PortalitoOlfy(world,31.5f,6.5f);
         portalAntonio=new PortalitoAntonio(world,45.5f,8.5f);
         portalDarash=new PortalitoDarash(world,29,28);
+        portalFinal=new PortalFinal(world,48,28);
 
 
 
@@ -152,6 +155,7 @@ public class Juego extends Game {
         portalOlfy.draw(batch,0);
         portalAntonio.draw(batch,0);
         portalDarash.draw(batch,0);
+        portalFinal.draw(batch,0);
         batch.end();
 
         contadorMuertes = baseDeDatos.cargar();
@@ -218,8 +222,6 @@ public class Juego extends Game {
         music.setLooping(true);
         music.setVolume(1.5f);
         music.play();
-
-
     }
 
 
@@ -242,5 +244,9 @@ public class Juego extends Game {
 
     public PortalitoDarash getPortalDarash() {
         return portalDarash;
+    }
+
+    public PortalFinal getPortalFinal() {
+        return portalFinal;
     }
 }
