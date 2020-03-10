@@ -9,7 +9,15 @@ import com.portal.game.Juego;
 import basedatos.BaseDeDatosAndroid;
 import funciones.SalidaAplicacion;
 
+/**
+ * Clase AndroidLauncher, lanza el juego.
+ * @author Javier Rodríguez Bravo.
+ */
 public class AndroidLauncher extends AndroidApplication {
+	/**
+	 * Funcion onCreate, lanza el juego y dentro de el la base de datos y una variable boolean.
+	 * @param savedInstanceState
+	 */
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -18,6 +26,9 @@ public class AndroidLauncher extends AndroidApplication {
 
 	}
 
+	/**
+	 * Función onBackPressed, llama a la función salidaAplicacion.
+	 */
 	@Override
 	public void onBackPressed() {
 		SalidaAplicacion.salidaAplicacion(this);
